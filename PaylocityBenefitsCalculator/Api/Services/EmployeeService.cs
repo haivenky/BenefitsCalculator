@@ -118,7 +118,7 @@ namespace Api.Services
             try
             {
                 var employees = await _jsonDataProvider.GetEmployees();
-                var employee = employees.FirstOrDefault(e => e.Id == id);
+                var employee = employees?.FirstOrDefault(e => e.Id == id);
 
                 if (employee == null)
                 {

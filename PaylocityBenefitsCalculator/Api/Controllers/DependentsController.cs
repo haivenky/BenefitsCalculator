@@ -1,4 +1,5 @@
 ﻿using Api.Dtos.Dependent;
+using Api.Dtos.Employee;
 using Api.Models;
 using Api.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,9 @@ public class DependentsController : ControllerBase
     /// <returns>An ActionResult containing the ApiResponse with dependent details.</returns>
     [SwaggerOperation(Summary = "Get dependent by id")]
     [HttpGet("{id}")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Returns the employee details", typeof(ApiResponse<GetDependentDto>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Dependent not found")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult<ApiResponse<GetDependentDto>>> Get(int id)
     {
         try
@@ -54,6 +58,9 @@ public class DependentsController : ControllerBase
     /// <returns>An ActionResult containing the ApiResponse with a list of dependents.</returns>
     [SwaggerOperation(Summary = "Get all dependents")]
     [HttpGet("")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Returns list of dependent details", typeof(ApiResponse<List<GetDependentDto>>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Dependents not found")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult<ApiResponse<List<GetDependentDto>>>> GetAll()
     {
         try

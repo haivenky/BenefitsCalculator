@@ -24,6 +24,9 @@ public class EmployeesController : ControllerBase
     /// <returns>An ActionResult containing the ApiResponse with employee details.</returns>
     [SwaggerOperation(Summary = "Get employee by id")]
     [HttpGet("{id}")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Returns the employee details", typeof(ApiResponse<GetEmployeeDto>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Employee not found")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult<ApiResponse<GetEmployeeDto>>> Get(int id)
     {
         try
@@ -54,6 +57,9 @@ public class EmployeesController : ControllerBase
     /// <returns>An ActionResult containing the ApiResponse with a list of employees.</returns>
     [SwaggerOperation(Summary = "Get all employees")]
     [HttpGet("")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Returns list of employee details", typeof(ApiResponse<List<GetEmployeeDto>>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Employees not found")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult<ApiResponse<List<GetEmployeeDto>>>> GetAll()
     {
         try
@@ -85,6 +91,9 @@ public class EmployeesController : ControllerBase
     /// <returns>An ActionResult containing the ApiResponse with paycheck details.</returns>
     [SwaggerOperation(Summary = "Get employee paycheck")]
     [HttpGet("{id}/paycheck")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Returns the paycheck details", typeof(ApiResponse<PayCheck>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Employee not found")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult<ApiResponse<PayCheck>>> GetPaycheck(int id)
     {
         try
@@ -114,6 +123,9 @@ public class EmployeesController : ControllerBase
     /// <returns>An ActionResult indicating success or failure.</returns>
     [SwaggerOperation(Summary = "Adds or updates an employee")]
     [HttpPost("AddOrUpdateEmployee")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Employee added or updated successfully", typeof(bool))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid employee data")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "An unexpected error occurred")]
     public async Task<ActionResult> AddOrUpdateEmployee([FromBody] Employee employee)
     {
         if (employee == null)
@@ -144,7 +156,7 @@ public class EmployeesController : ControllerBase
             // Log unexpected exceptions
             
             // Return a 500 Internal Server Error response
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding or updating the employee.");
         }
     }
 }
